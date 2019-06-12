@@ -1,0 +1,114 @@
+﻿@page
+@{
+    ViewData["Title"] = "OAuth2 Cookie Parser";
+
+    @functions{
+
+        public static string CookieName = "encelium-oauth2";
+        public static string CookieValue = "";
+        public static string ParsedUsername = "";
+
+        public string StatusMessage = "";
+
+        public void OnGet()
+        {
+            PopulateValues(CookieName);
+        }
+
+        private void PopulateValues(string cookieName) {
+            ParsedUsername = "";
+
+            try {
+
+                CookieValue = GetCookieValue(cookieName);
+
+                if (CookieValue != null) {
+                    var parsedCookieValues = CookieValue.Split('|');
+                    ParsedUsername = GetUsername(parsedCookieValues);
+                }
+            } catch (Exception ex) {
+                StatusMessage = ex.Message;
+            }
+        }
+
+        public void OnPost()
+        {
+            CookieName = Request.Form["CookieName"];
+
+            PopulateValues(CookieName);
+        }
+
+
+        public void OnPostView(int id)
+        {
+            CookieValue = GetCookieValue(CookieName);
+        }
+
+        private string GetCookieValue(string cookieName)
+        {
+            //if (String.IsNullOrEmpty(Request.Cookies[cookieName]))
+            //    return "YmxhYmxhZW1haWxAYmxhYmxhZG9tYWluLmNvbS5pbw==|3360361911|xphchRN9GI3dJdaRm2WazpQbk-0=";
+            //else
+            return Request.Cookies[CookieName];
+        }
+
+
+        //When we enable access_token returns, oauth2_proxy includes the username and jwt in the first array with another |
+        //
+        private string GetUsername (string[] values) {
+            
+            var firstValue = DecodeBase64(values[0]);
+
+            return firstValue.Split('|')[0];
+        }
+
+        private string EncodeBase64(string stringValue)
+        {
+            byte[] encodedBytes = System.Text.Encoding.Unicode.GetBytes(stringValue);
+            return Convert.ToBase64String(encodedBytes);
+        }
+
+        private string DecodeBase64(string base64String)
+        {
+            try {
+
+            byte[] decodedBytes = Convert.FromBase64String(base64String);
+            return System.Text.Encoding.UTF8.GetString(decodedBytes);
+            //return System.Text.Encoding.Unicode.GetString(decodedBytes);
+
+            } catch (Exception ex) {
+                throw new Exception ("Could not decode value: " + base64String);
+            }
+
+        }
+    }
+}
+
+<style>
+    .consoleFont {
+        font-size: 0.8em;
+        font-family: 'Courier New';
+    }
+
+    .valueContainer {
+        /* overflow-y: auto;
+        overflow-x: auto;
+            */
+        word-break: break-all;
+    }
+</style>
+<div class="text-left, consoleFont" style="width:98%">
+    <h1 class="display-4">OAuth2 Cookie Parser</h1>
+
+    <form class="form-horizontal" method="post">
+        CookieName : <br /><input name="CookieName" value="@CookieName" /> <br />
+        CookieValue: <br /><textarea name="CookieValue" style="width:850px; height:200px">@CookieValue</textarea>
+        <br />
+        <input value="SUBMIT" type="submit" />
+        <h3>Parsed Values</h3>
+        Parsed Username: <br /><label>@ParsedUsername</label>
+        <br />
+        <label>Status:</label> <br />
+        @StatusMessage
+    </form>
+</div>
