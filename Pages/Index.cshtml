@@ -1,0 +1,28 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+
+}
+
+<div class="text-left">
+    <h1 class="display-4">Utility App</h1>
+
+    <hr />
+    <H3>Headers</H3>
+    <p>
+        @foreach (String key in Request.Headers.Keys)
+        {
+            <label style="font-weight:bold;width:150px">@key :</label> <label>@Request.Headers[key].ToString()</label><br />
+        }
+
+    </p>
+
+    <h3>Cookies</h3>
+    <p>
+        @foreach (String key in Request.Cookies.Keys)
+        {
+            <label style="font-weight:bold;width:150px">@key :</label> <label>@Request.Cookies[key].ToString()</label><br />
+        }
+    </p>
+</div>
