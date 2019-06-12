@@ -10,4 +10,4 @@ ENV ASPNETCORE_ENVIRONMENT="Production"
 ENV ASPNETCORE_URLS http://*:5000
 
 #ENTRYPOINT ["dotnet", "DevOpsSample.Api.dll", "--server.urls", "http://*:5000"]
-ENTRYPOINT ["dotnet", "HttpHeaders_Utility.dll"]
+ENTRYPOINT ["dotnet", "HttpUtility.dll"]

@@ -1,4 +1,4 @@
-rmdir ./publish
+rmdir -r ./publish
 
 dotnet publish -o ./publish
 
