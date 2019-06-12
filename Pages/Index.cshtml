@@ -5,7 +5,17 @@
 
 }
 
-<div class="text-left">
+<style>
+    .valueContainer {
+        /* overflow-y: auto;
+        overflow-x: auto;
+            */
+        word-break: break-all;
+    }
+</style>
+
+
+<div class="text-left" style="width:98%">
     <h1 class="display-4">Utility App</h1>
 
     <hr />
@@ -13,7 +23,12 @@
     <p>
         @foreach (String key in Request.Headers.Keys)
         {
-            <label style="font-weight:bold;width:150px">@key :</label> <label>@Request.Headers[key].ToString()</label><br />
+            @if (key=="Cookie") {
+                continue;
+            }
+
+            <label style="font-weight:bold;width:150px">@key :</label>
+            <label class="valueContainer">@Request.Headers[key].ToString()</label><br />
         }
 
     </p>
@@ -22,7 +37,8 @@
     <p>
         @foreach (String key in Request.Cookies.Keys)
         {
-            <label style="font-weight:bold;width:150px">@key :</label> <label>@Request.Cookies[key].ToString()</label><br />
+            <label style="font-weight:bold;width:150px">@key :</label>
+            <label class="valueContainer">@Request.Cookies[key].ToString() </label><br />
         }
     </p>
 </div>
