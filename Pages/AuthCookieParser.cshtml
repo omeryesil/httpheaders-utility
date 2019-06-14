@@ -105,13 +105,11 @@
             */
         word-break: break-all;
         width: 100%;
-        min-height: 30rem;
+        min-height: 20rem;
         font-family: "Lucida Console", Monaco, monospace;
         font-size: 0.8rem;
         line-height: 1.2;
     }
-
-
 </style>
 <div class="text-left, consoleFont" style="width:99%">
     <h1 class="display-4">OAuth2 Cookie Parser</h1>
@@ -121,17 +119,16 @@
         CookieValue: <br /><textarea name="CookieValue" class="valueContainer">@CookieValue</textarea>
         <br />
         <input value="SUBMIT" type="submit" />
-        <h3>Parsed Values</h3>
-        Parsed[0]: <br />
-        <textbox id="parsedValue0Container" class="valueContainer">
-            @ParsedValue0
-        </textbox>
-        <br />
-
-        <label>Status:</label> <br />
-
-        @StatusMessage
     </form>
+    Message: @StatusMessage
+    <hr />
+    <h3>Parsed Values</h3>
+    Parsed[0]: <br />
+    <textbox id="parsedValue0Container" class="valueContainer">
+        @ParsedValue0
+    </textbox>
+    <hr />
+
 
 
 </div>
