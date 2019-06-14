@@ -6,7 +6,7 @@
 
         public static string CookieName = "encelium-oauth2";
         public static string CookieValue = "";
-        public static string ParsedUsername = "";
+        public static string ParsedValue0 = "";
 
         public string StatusMessage = "";
 
@@ -15,18 +15,23 @@
             PopulateValues(CookieName);
         }
 
-        private void PopulateValues(string cookieName) {
-            ParsedUsername = "";
+        private void PopulateValues(string cookieName)
+        {
+            ParsedValue0 = "";
 
-            try {
+            try
+            {
 
                 CookieValue = GetCookieValue(cookieName);
 
-                if (CookieValue != null) {
+                if (CookieValue != null)
+                {
                     var parsedCookieValues = CookieValue.Split('|');
-                    ParsedUsername = GetUsername(parsedCookieValues);
+                    ParsedValue0 = GetUsername(parsedCookieValues);
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 StatusMessage = ex.Message;
             }
         }
@@ -55,8 +60,9 @@
 
         //When we enable access_token returns, oauth2_proxy includes the username and jwt in the first array with another |
         //
-        private string GetUsername (string[] values) {
-            
+        private string GetUsername(string[] values)
+        {
+
             var firstValue = DecodeBase64(values[0]);
 
             return firstValue.Split('|')[0];
@@ -70,14 +76,17 @@
 
         private string DecodeBase64(string base64String)
         {
-            try {
+            try
+            {
 
-            byte[] decodedBytes = Convert.FromBase64String(base64String);
-            return System.Text.Encoding.UTF8.GetString(decodedBytes);
-            //return System.Text.Encoding.Unicode.GetString(decodedBytes);
+                byte[] decodedBytes = Convert.FromBase64String(base64String);
+                return System.Text.Encoding.UTF8.GetString(decodedBytes);
+                //return System.Text.Encoding.Unicode.GetString(decodedBytes);
 
-            } catch (Exception ex) {
-                throw new Exception ("Could not decode value: " + base64String);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Could not decode value: " + base64String);
             }
 
         }
@@ -95,20 +104,36 @@
         overflow-x: auto;
             */
         word-break: break-all;
+        width: 100%;
+        min-height: 30rem;
+        font-family: "Lucida Console", Monaco, monospace;
+        font-size: 0.8rem;
+        line-height: 1.2;
     }
+
+
 </style>
-<div class="text-left, consoleFont" style="width:98%">
+<div class="text-left, consoleFont" style="width:99%">
     <h1 class="display-4">OAuth2 Cookie Parser</h1>
 
     <form class="form-horizontal" method="post">
         CookieName : <br /><input name="CookieName" value="@CookieName" /> <br />
-        CookieValue: <br /><textarea name="CookieValue" style="width:850px; height:200px">@CookieValue</textarea>
+        CookieValue: <br /><textarea name="CookieValue" class="valueContainer">@CookieValue</textarea>
         <br />
         <input value="SUBMIT" type="submit" />
         <h3>Parsed Values</h3>
-        Parsed Username: <br /><label>@ParsedUsername</label>
+        Parsed[0]: <br />
+        <textbox id="parsedValue0Container" class="valueContainer">
+            @ParsedValue0
+        </textbox>
         <br />
+
         <label>Status:</label> <br />
+
         @StatusMessage
     </form>
+
+
 </div>
+
+
